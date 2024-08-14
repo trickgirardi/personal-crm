@@ -17,7 +17,5 @@ function render() {
         li.innerText = tarefa
         ul.appendChild(li)
     })
-
-
 }
 
