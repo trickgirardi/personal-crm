@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kite+One&display=swap');
+
+
+* {
+    font-family: 'Ubuntu', 'Times New Roman';
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #1A1A1A;
+}
+
+div {
+    width: 70vw;
+    height: 85vh;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #212121;
+
+    border-radius: 10px;
+}
+
+h1 {
+    color: #DADADA;
+}
+
+ul {
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50vw;
+    height: 60vh;
+    border-radius: 7px;
+    border: 1px solid #00000062;
+
+    background-color: #eee6d5;
+
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: justify;
+    justify-content: top;
+}
+
+li {
+    font-family: "Kite One", sans-serif;
+    color: #3a3a3a;
+}
+
+input {
+    text-align: center;
+
+    color: #FFFFFF;
+    background-color: #1A1A1A;
+
+    border: 1px solid #00000062;
+    border-radius: 5px;
+
+    width: 200px;
+    height: 25px;
+
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    width: 100px;
+    height: 30px;
+
+    background-color: #c4a76b;
+
+    border-radius: 5px;
+}
+
