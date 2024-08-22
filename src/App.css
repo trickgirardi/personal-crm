@@ -21,7 +21,7 @@ body {
     background-color: #1A1A1A;
 }
 
-div {
+.container {
     width: 70vw;
     height: 85vh;
 
@@ -40,9 +40,9 @@ h1 {
 }
 
 ul {
-    padding-top: 10px;
-    padding-right: 30px;
-    padding-left: 30px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50vw;
@@ -63,6 +63,44 @@ li {
     color: #3a3a3a;
 }
 
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+.task-text {
+    flex-grow: 1;
+    margin-right: 5px;
+    width: 100px;
+    height: 20px;
+    cursor: pointer;
+}
+  
+  .task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #888;
+    cursor: pointer;
+  }
+
+  .remove-button {
+    background-color: #dc3545;
+    color: white;
+
+    width: 25px;
+    height: 20px;
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+    padding: 0;
+    margin-left: 100px;
+  }
+
 input {
     text-align: center;
 
@@ -78,7 +116,7 @@ input {
     outline: none;
 }
 
-button {
+.button-add {
     cursor: pointer;
 
     margin-top: 10px;
