@@ -8,10 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      database: 'postgres',
-    })
-
-    DevelopersModule],
+      database: 'db.postgres',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    DevelopersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

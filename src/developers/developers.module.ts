@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DevelopersService } from './developers.service';
 import { DevelopersController } from './developers.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
+  imports: [TypeOrmModule, forFeature([Developer])],
   controllers: [DevelopersController],
   providers: [DevelopersService],
 })
