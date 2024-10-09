@@ -16,30 +16,37 @@ export class DevelopersController {
   constructor(private readonly developersService: DevelopersService) {}
 
   @Post()
-  create(@Body() createDeveloperDto: CreateDeveloperDto) {
-    return this.developersService.create(createDeveloperDto);
+  async create(@Body() createDeveloperDto: CreateDeveloperDto) {
+    const developer = await this.developersService.create(createDeveloperDto);
+    return developer;
   }
 
   @Get()
-  findAll() {
-    return this.developersService.findAll();
+  async findAll() {
+    const developers = await this.developersService.findAll();
+    return developers;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.developersService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const developer = await this.developersService.findOne(id);
+    return developer;
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateDeveloperDto: UpdateDeveloperDto,
   ) {
-    return this.developersService.update(id, updateDeveloperDto);
+    const developer = await this.developersService.update(
+      id,
+      updateDeveloperDto,
+    );
+    return developer;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.developersService.remove(id);
+  async remove(@Param('id') id: string) {
+    await this.developersService.remove(id);
   }
 }

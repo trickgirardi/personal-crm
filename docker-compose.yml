@@ -1,22 +1,14 @@
 services:
   postgres:
     image: bitnami/postgresql:latest
-    container_name: postgres
-    restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=developers
-      - PGDATA=/var/lib/postgresql/data
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
+    volumes:
+      - postgres:/bitnami/postgresql
 
 volumes:
-  pgdata:
-    driver: local
-    driver_opts:
-      type: none
-      device: /mnt/data/postgres
-      o: bind
+  postgres:

@@ -1,40 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDeveloperDto } from './dto/create-developer.dto';
-import { UpdateDeveloperDto } from './dto/update-developer.dto';
-import { Repository } from 'typeorm';
-import { Developer } from './entities/developer.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DevelopersService {
-  constructor(
-    @InjectRepository(Developer)
-    private readonly repository: Repository<Developer>,
-  ) {}
+  constructor(@Inject('PRISMA_CLIENT') private readonly prisma: PrismaClient) {}
 
-  create(dto: CreateDeveloperDto) {
-    const developer = this.repository.create(dto);
-    return this.repository.save(developer);
+  async create(CreateDeveloperDto: any) {
+    const developer = await this.prisma.developer.create({
+      data: CreateDeveloperDto,
+    });
+    return developer;
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    const developer = await this.prisma.developer.findMany();
+    return developer;
   }
 
-  findOne(id: string) {
-    return this.repository.findOneBy({ id });
+  async findOne(id: string) {
+    const developer = await this.prisma.developer.findUnique({
+      where: { id },
+    });
+    return developer;
   }
 
-  async update(id: string, dto: UpdateDeveloperDto) {
-    const developer = await this.repository.findOneBy({ id });
-    if (!developer) return null;
-    this.repository.merge(developer, dto);
-    return this.repository.save(developer);
+  async update(id: string, updateDeveloperDto: any) {
+    const developer = await this.prisma.developer.update({
+      where: { id },
+      data: updateDeveloperDto,
+    });
+    return developer;
   }
 
   async remove(id: string) {
-    const developer = await this.repository.findOneBy({ id });
-    if (!developer) return null;
-    return this.repository.remove(developer);
+    await this.prisma.developer.delete({
+      where: { id },
+    });
   }
 }
