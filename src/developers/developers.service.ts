@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { CreateDeveloperDto } from './dto/create-developer.dto';
 
 @Injectable()
 export class DevelopersService {
   constructor(@Inject('PRISMA_CLIENT') private readonly prisma: PrismaClient) {}
 
-  async create(CreateDeveloperDto: any) {
+  async create(@Body() createDeveloperDto: CreateDeveloperDto) {
     const developer = await this.prisma.developer.create({
-      data: CreateDeveloperDto,
+      data: {
+        name: createDeveloperDto.name,
+        email: createDeveloperDto.email,
+      },
     });
     return developer;
   }

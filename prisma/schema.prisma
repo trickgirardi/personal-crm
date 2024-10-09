@@ -8,8 +8,7 @@ generator client {
 }
 
 model Developer {
-  id       String   @id @default(cuid())
+  id       String   @id @default(uuid()) @unique
   name     String
   email    String   @unique
-  dateOfBirth DateTime
 }
