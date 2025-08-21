@@ -1,5 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { SupabaseAdapter } from "@auth/supabase-adapter";
+import { supabase } from "./supabase";
 
 declare module "next-auth" {
   interface Session {
@@ -13,6 +15,10 @@ declare module "next-auth" {
 }
 
 export const authOptions: NextAuthOptions = {
+  adapter: SupabaseAdapter({
+    url: process.env.SUPABASE_URL!,
+    secret: process.env.SUPABASE_JWT_SECRET!,
+  }),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -21,19 +27,31 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Aqui você pode implementar sua lógica de autenticação
-        // Por exemplo, verificar no banco de dados
-        if (
-          credentials?.email === "admin@example.com" &&
-          credentials?.password === "password"
-        ) {
-          return {
-            id: "1",
-            email: "admin@example.com",
-            name: "Admin User",
-          };
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
-        return null;
+
+        try {
+          // Use Supabase auth to sign in
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: credentials.email,
+            password: credentials.password,
+          });
+
+          if (error || !data.user) {
+            return null;
+          }
+
+          return {
+            id: data.user.id,
+            email: data.user.email,
+            name:
+              data.user.user_metadata?.name || data.user.email?.split("@")[0],
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
+        }
       },
     }),
   ],

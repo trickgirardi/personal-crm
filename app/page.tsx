@@ -71,9 +71,21 @@ export default function Home() {
               </ul>
             </div>
 
-            <Button onClick={handleLogout} variant="outline" className="w-full">
-              Sair
-            </Button>
+            <div className="flex flex-col space-y-2">
+              <Button
+                onClick={() => router.push("/profile")}
+                className="w-full"
+              >
+                Ver Perfil
+              </Button>
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="w-full"
+              >
+                Sair
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

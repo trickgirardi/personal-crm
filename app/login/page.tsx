@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signInUser } from "@/lib/supabase-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +29,15 @@ export default function LoginPage() {
     setError("");
 
     try {
+      const { error } = await signInUser(email, password);
+
+      if (error) {
+        console.error("Supabase auth error:", error);
+        setError("Credenciais inválidas. Tente novamente.");
+        setIsLoading(false);
+        return;
+      }
+
       const result = await signIn("credentials", {
         email,
         password,
@@ -37,10 +47,10 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Credenciais inválidas. Tente novamente.");
       } else {
-        // Login bem-sucedido, redirecionar para a página principal
         router.push("/");
       }
     } catch (error) {
+      console.error("Login error:", error);
       setError("Erro ao fazer login. Tente novamente.");
     } finally {
       setIsLoading(false);
@@ -70,7 +80,7 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="seu.email@dominio.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -82,21 +92,16 @@ export default function LoginPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="password"
+                placeholder="sua-senha-secreta"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
               />
             </div>
-            <div className="text-sm text-gray-600">
-              <p>Credenciais de teste:</p>
-              <p>Email: admin@example.com</p>
-              <p>Senha: password</p>
-            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full mt-4" disabled={isLoading}>
               {isLoading ? "Entrando..." : "Entrar"}
             </Button>
             <div className="text-center space-y-2">
@@ -105,7 +110,7 @@ export default function LoginPage() {
               </a>
               <p className="text-sm text-gray-600">
                 Não tem uma conta?{" "}
-                <a href="#" className="text-blue-600 hover:underline">
+                <a href="/signup" className="text-blue-600 hover:underline">
                   Cadastre-se
                 </a>
               </p>
